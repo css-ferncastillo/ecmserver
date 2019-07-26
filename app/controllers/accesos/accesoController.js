@@ -21,33 +21,48 @@
 var model = require("../../models/index");
 var Db = model.accesos;
 var msg = require("../../configs/responses_msg");
+var bcrypt = require("bcrypt-nodejs");
 
 module.exports = {
   create: (req, res) => {
     let data = req.body;
+    let clave = "123456789";
     let acceso = new Db({
       empleadoid: data.empleadoid,
+      usuario: data.usuario,
       perfilid: data.perfilid,
       avatar: data.avatar,
-      clave: data.clave,
+      clave: clave,
       accesodt: data.accesodt
     });
-    accesos.save((error, resp) => {
-      if (!error) {
-        Db.count((counterError, counter) => {
-          if (counter > 0) {
-            res.status(200).json({
-              titulo: msg.create.success.title,
-              tipo: msg.create.success.type,
-              mensaje: msg.create.success.message,
-              data: resp
+    bcrypt.hash(clave, null, null, (c_error, c_result) => {
+      if (!c_error) {
+        acceso.clave = c_result;
+        acceso.save((error, resp) => {
+          if (!error) {
+            Db.count((counterError, counter) => {
+              if (counter > 0) {
+                res.status(200).json({
+                  titulo: msg.create.success.title,
+                  tipo: msg.create.success.type,
+                  mensaje: msg.create.success.message,
+                  data: resp
+                });
+              } else {
+                res.status(400).json({
+                  titulo: msg.create.not_found.title,
+                  tipo: msg.create.not_found.type,
+                  mensaje: msg.create.not_found.message,
+                  data: resp
+                });
+              }
             });
           } else {
-            res.status(400).json({
-              titulo: msg.create.not_found.title,
-              tipo: msg.create.not_found.type,
-              mensaje: msg.create.not_found.message,
-              data: resp
+            res.status(500).json({
+              titulo: msg.read.error.title,
+              tipo: msg.read.error.type,
+              mensaje: msg.read.error.message,
+              data: error
             });
           }
         });
@@ -56,7 +71,7 @@ module.exports = {
           titulo: msg.read.error.title,
           tipo: msg.read.error.type,
           mensaje: msg.read.error.message,
-          data: error
+          data: c_error
         });
       }
     });
@@ -97,7 +112,6 @@ module.exports = {
         }
       });
   },
-
   filter: (req, res) => {
     let params = req.body;
     let join = [
@@ -197,5 +211,57 @@ module.exports = {
         });
       }
     });
+  },
+  login: (req, res) => {
+    let usr = req.body.usuario;
+    let pdw = req.body.clave;
+    let join = [
+      { path: "empleadoid", model: "empleados" },
+      { path: "perfilid", model: "perfiles" }
+    ];
+
+    Db.findOne({ usuario: usr })
+      .populate(join)
+      .exec((error, result) => {
+        
+        if (error) {
+          res.status(500).json({
+            titulo: 'Error en la Petición!',
+            tipo: 'danger',
+            mensaje: 'Se ha producido un error al intentar procesar los datos',
+            data: error
+          });
+        } else {
+          if (!result) {
+            res.status(404).json({
+              titulo: 'Acceso Denegado!',
+              tipo: 'warning',
+              mensaje: 'Usuario o contraseña incorrecta, ingrese nuevamente sus datos',
+              data: null
+            });
+          }else{
+            bcrypt.compare(pdw, result.clave, (err, check) => {
+              if(check){
+                //devolver los datos del usuario logeado
+                res.status(500).json({
+                  titulo: 'Acceso Correcto!',
+                  tipo: 'success',
+                  mensaje: 'El usuario ha accedido correctamente',
+                  data: result,
+                  token: null
+                });
+              }else{
+                // error de contraseñas
+                res.status(500).json({
+                  titulo: 'Acceso Denegado!',
+                  tipo: 'warning',
+                  mensaje: 'Usuario o Contraseña incorrecta, ingrese nuevamente sus datos',
+                  data: err
+                });
+              }
+            });
+          }
+        }
+      });
   }
 };

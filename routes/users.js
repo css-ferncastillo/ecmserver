@@ -59,6 +59,13 @@ app.put('/equipo/editar/:_id',controller.equipoController.update);
 app.delete('/equipo/eliminar/:_id',controller.equipoController.delete);
 
 // ESTADO ROUTES
+app.post('/estado/civil/crear',controller.estadoCivilController.create);
+app.get('/estado/civil/listar',controller.estadoCivilController.read);
+app.post('/estado/civil/filtrar',controller.estadoCivilController.filter);
+app.put('/estado/civil/editar/:_id',controller.estadoCivilController.update);
+app.delete('/estado/civil/eliminar/:_id',controller.estadoCivilController.delete);
+
+// ESTADO ROUTES
 app.post('/estado/crear',controller.estadoController.create);
 app.get('/estado/listar',controller.estadoController.read);
 app.post('/estado/filtrar',controller.estadoController.filter);
@@ -66,11 +73,11 @@ app.put('/estado/editar/:_id',controller.estadoController.update);
 app.delete('/estado/eliminar/:_id',controller.estadoController.delete);
 
 // GENERO ROUTES
-app.post('/genero/',controller.generoController.create);
-app.get('/genero/',controller.generoController.read);
-app.post('/genero/',controller.generoController.filter);
-app.put('/genero/',controller.generoController.update);
-app.delete('/genero/',controller.generoController.delete);
+app.post('/genero/crear',controller.generoController.create);
+app.get('/genero/listar',controller.generoController.read);
+app.post('/genero/filtrar',controller.generoController.filter);
+app.put('/genero/esitar/:_id',controller.generoController.update);
+app.delete('/genero/eliminar/:_id',controller.generoController.delete);
 
 // INF_CONTACTO ROUTES
 app.post('/informacion/contacto/crear',controller.infContactoController.create);
