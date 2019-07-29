@@ -142,4 +142,6 @@ app.post('/tipo/sangre/filtrar',controller.tipoSangreController.filter);
 app.put('/tipo/sangre/editar/:_id',controller.tipoSangreController.update);
 app.delete('/tipo/sangre/eliminar/:_id',controller.tipoSangreController.delete);
 
+app.get('/provs/provincia', controller.prov.getProvincia);
+
 module.exports = app;

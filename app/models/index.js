@@ -1,6 +1,8 @@
+// eslint-disable-next-line no-undef
 var db = require("mongoose");
 var Schema = db.Schema;
 
+// eslint-disable-next-line no-undef
 module.exports = {
   area: db.model(
     "areas", Schema({ // OK
