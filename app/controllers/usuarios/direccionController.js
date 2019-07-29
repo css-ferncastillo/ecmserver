@@ -8,6 +8,7 @@
 var model = require("../../models/index");
 var Db = model.direccion;
 var msg = require("../../configs/responses_msg");
+var paginate = require('mongoose-pagination');
 
 module.exports = {
   create: (req, res) => {
@@ -47,90 +48,78 @@ module.exports = {
     });
   },
   read: (req, res) => {
-    let join = [
-      {
-        path: "empleadoid",
-        model: "empleados"
-      },
-      {
-        path: "corregimientoid",
-        model: "corregimientos"
+    var page;
+    var item;
+    req.params.page ? page = req.params.page : page = 1;
+    req.params.item ? item = req.params.item : item = 10;
+
+    Db.find().paginate(page, item, (error, resp, total) => {
+      if (!error) {
+        Db.count((counterError, counter) => {
+          if (counter > 0) {
+            res.status(200).json({
+              titulo: msg.read.success.title,
+              tipo: msg.read.success.type,
+              mensaje: msg.read.success.message,
+              data: resp,
+              pagina: total
+            });
+          } else {
+            res.status(400).json({
+              titulo: msg.read.not_found.title,
+              tipo: msg.read.not_found.type,
+              mensaje: msg.read.not_found.message,
+              data: resp
+            });
+          }
+        });
+      } else {
+        res.status(500).json({
+          titulo: msg.read.error.title,
+          tipo: msg.read.error.type,
+          mensaje: msg.read.error.message,
+          data: error
+        });
       }
-    ];
-    Db.find()
-      .populate(join)
-      .exec((error, resp) => {
-        if (!error) {
-          Db.count((counterError, counter) => {
-            if (counter > 0) {
-              res.status(200).json({
-                titulo: msg.read.success.title,
-                tipo: msg.read.success.type,
-                mensaje: msg.read.success.message,
-                data: resp
-              });
-            } else {
-              res.status(400).json({
-                titulo: msg.read.not_found.title,
-                tipo: msg.read.not_found.type,
-                mensaje: msg.read.not_found.message,
-                data: resp
-              });
-            }
-          });
-        } else {
-          res.status(500).json({
-            titulo: msg.read.error.title,
-            tipo: msg.read.error.type,
-            mensaje: msg.read.error.message,
-            data: error
-          });
-        }
-      });
+    });
   },
 
   filter: (req, res) => {
-    let params = req.body;
-    let join = [
-      {
-        path: "empleadoid",
-        model: "empleados"
-      },
-      {
-        path: "corregimientoid",
-        model: "corregimientos"
+    var page;
+    var item;
+    req.params.page ? page = req.params.page : page = 1;
+    req.params.item ? item = req.params.item : item = 10;
+
+    var params = req.body;
+    Db.find(params).paginate(page, item, (error, resp, total) => {
+      if (!error) {
+        Db.count((counterError, counter) => {
+          if (counter > 0) {
+            res.status(200).json({
+              titulo: msg.read.success.title,
+              tipo: msg.read.success.type,
+              mensaje: msg.read.success.message,
+              data: resp,
+              pagina: total
+            });
+          } else {
+            res.status(400).json({
+              titulo: msg.read.not_found.title,
+              tipo: msg.read.not_found.type,
+              mensaje: msg.read.not_found.message,
+              data: resp
+            });
+          }
+        });
+      } else {
+        res.status(500).json({
+          titulo: msg.read.error.title,
+          tipo: msg.read.error.type,
+          mensaje: msg.read.error.message,
+          data: error
+        });
       }
-    ];
-    Db.find(params)
-      .populate(join)
-      .exec((error, resp) => {
-        if (!error) {
-          Db.count((counterError, counter) => {
-            if (counter > 0) {
-              res.status(200).json({
-                titulo: msg.filter.success.title,
-                tipo: msg.filter.success.type,
-                mensaje: msg.filter.success.message,
-                data: resp
-              });
-            } else {
-              res.status(400).json({
-                titulo: msg.filter.not_found.title,
-                tipo: msg.filter.not_found.type,
-                mensaje: msg.filter.not_found.message,
-                data: resp
-              });
-            }
-          });
-        } else {
-          res.status(500).json({
-            titulo: msg.filter.error.title,
-            tipo: msg.filter.error.type,
-            mensaje: msg.filter.error.message,
-            data: error
-          });
-        }
-      });
+    });
   },
   update: (req, res) => {
     let id = req.params;
