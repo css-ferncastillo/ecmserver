@@ -63,9 +63,8 @@ module.exports = {
   read: (req, res) => {
     var page;
     var item;
-    req.params.page ? (page = req.params.page) : (page = 1);
-    req.params.item ? (item = req.params.item) : (item = 10);
-
+    req.params.page ? page = parseInt(req.params.page) : page = 1;
+    req.params.item ? item = parseInt(req.params.item) : item = 10;
     var join = [
       { path: "area", model: "areas" },
       { path: "coordinador", model: "coordinadores" },
@@ -73,7 +72,7 @@ module.exports = {
     ];
     Db.find()
       .populate(join)
-      .exec()
+      //.exec()
       .paginate(page, item, (error, resp, total) => {
         if (!error) {
           Db.count((counterError, counter) => {
@@ -118,7 +117,7 @@ module.exports = {
     ];
     Db.find(params)
       .populate(join)
-      .exec()
+     // .exec()
       .paginate(page, item, (error, resp, total) => {
         if (!error) {
           Db.count((counterError, counter) => {

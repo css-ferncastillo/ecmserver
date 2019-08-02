@@ -69,8 +69,8 @@ module.exports = {
   read: (req, res) => {
     var page;
     var item;
-    req.params.page ? (page = req.params.page) : (page = 1);
-    req.params.item ? (item = req.params.item) : (item = 10);
+    req.params.page ? page = parseInt(req.params.page) : page = 1;
+    req.params.item ? item = parseInt(req.params.item) : item = 10;
 
     var join = [
       { path: "genero", model: "generos" },
@@ -115,8 +115,9 @@ module.exports = {
     var params = req.body;
     var page;
     var item;
-    req.params.page ? (page = req.params.page) : (page = 1);
-    req.params.item ? (item = req.params.item) : (item = 10);
+    req.params.page ? (page = parseInt(req.params.page)) : (page = 1);
+    req.params.item ? (item = parseInt(req.params.item)) : (item = 10);
+
 
     var join = [
       { path: "genero", model: "generos" },

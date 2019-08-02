@@ -47,8 +47,8 @@ module.exports = {
   read: (req, res) => {
     var page;
     var item;
-    req.params.page ? page = req.params.page : page = 1;
-    req.params.item ? item = req.params.item : item = 10;
+    req.params.page ? page = parseInt(req.params.page) : page = 1;
+    req.params.item ? item = parseInt(req.params.item) : item = 10;
 
     Db.find().sort('genero').paginate(page, item, (error, resp, total) => {
       if (!error) {
