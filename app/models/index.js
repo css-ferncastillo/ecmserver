@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-undef
+// eslint-disable-next-line no-undef  
 var db = require("mongoose");
 var Schema = db.Schema;
 
@@ -25,8 +25,8 @@ module.exports = {
   ),
 
   corregimiento: db.model(
-    "corregiminetos", Schema({
-      distritoid: { type: String },
+    "corregimientos", Schema({
+      distritoid: { type: Schema.ObjectId, ref: "distritos" },
       corregimiento: { type: String }
     })
   ),

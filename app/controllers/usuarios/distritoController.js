@@ -58,7 +58,6 @@ module.exports = {
     };
     Db.find()
       .populate(join)
-      .exec()
       .paginate(page, item, (error, resp, total) => {
         if (!error) {
           Db.count((counterError, counter) => {

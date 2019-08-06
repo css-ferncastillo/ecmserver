@@ -47,13 +47,24 @@ module.exports = {
     });
   },
   read: (req, res) => {
+    var join = [
+      {
+        path: "distritoid",
+        model: "distritos",
+        populate: {
+          path: "provinciaid",
+          model: "provincias"
+        }
+      }
+    ];
+
     var page;
     var item;
-    req.params.page ? page = parseInt(req.params.page) : page = 1;
-    req.params.item ? item = parseInt(req.params.item) : item = 10;
+    req.params.page ? (page = parseInt(req.params.page)) : (page = 1);
+    req.params.item ? (item = parseInt(req.params.item)) : (item = 10);
 
     Db.find()
-      .sort("corregimiento")
+      .populate(join)
       .paginate(page, item, (error, resp, total) => {
         if (!error) {
           Db.count((counterError, counter) => {
@@ -70,7 +81,7 @@ module.exports = {
                 titulo: msg.read.not_found.title,
                 tipo: msg.read.not_found.type,
                 mensaje: msg.read.not_found.message,
-                data: resp
+                data: error
               });
             }
           });
