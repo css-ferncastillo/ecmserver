@@ -10,6 +10,9 @@ app.get('/acceso/listar',controller.accesoController.read);
 app.post('/acceso/filtrar',controller.accesoController.filter);
 app.put('/acceso/editar/:_id',controller.accesoController.update);
 app.delete('/acceso/eliminar/:_id',controller.accesoController.delete);
+app.post('/avatar/upload', controller.accesoController.uploadAvatar);
+app.get('/avatar/load', controller.accesoController.loadImagen);
+
 
 // ***ROL ROUTES
 app.post('/rol/crear',controller.rolController.create);
@@ -31,6 +34,8 @@ app.get('/permiso/listar',controller.permisoController.read);
 app.post('/permiso/filtrar',controller.permisoController.filter);
 app.put('/permiso/editar/:_id',controller.permisoController.update);
 app.delete('/permiso/eliminar/:_id',controller.permisoController.delete);
+
+
 
 
 // autenticacion

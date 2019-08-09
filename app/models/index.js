@@ -176,6 +176,11 @@ module.exports = {
       tipo_sangre: String
     })
   ),
+  avatar: db.model(
+    "avatars", Schema({
+      avatar: String
+    })
+  ),
 
   accesos: db.model(
     "accesos", Schema({

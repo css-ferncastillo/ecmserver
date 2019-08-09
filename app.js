@@ -9,6 +9,7 @@ var logger = require('morgan');
 var uploads = require('express-fileupload');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var base_path = __dirname;
 /* ******************************************
 * ARCHIVOS DE RUTAS
  ****************************************** */
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(uploads());
+//app.use(base_path);
 
 /* ************************************
  * DEFINE HEADERS
