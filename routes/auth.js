@@ -36,6 +36,8 @@ app.put('/permiso/editar/:_id',controller.permisoController.update);
 app.delete('/permiso/eliminar/:_id',controller.permisoController.delete);
 
 
+// ***AUTENTICACION ROUTES
+app.post('/usuario/autenticar', controller.authController.login);
 
 
 // autenticacion

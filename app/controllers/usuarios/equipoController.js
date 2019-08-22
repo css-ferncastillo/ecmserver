@@ -63,16 +63,50 @@ module.exports = {
   read: (req, res) => {
     var page;
     var item;
-    req.params.page ? page = parseInt(req.params.page) : page = 1;
-    req.params.item ? item = parseInt(req.params.item) : item = 10;
+    page = parseInt(req.params.page);
+    item = parseInt(req.params.item);
     var join = [
       { path: "area", model: "areas" },
       { path: "coordinador", model: "coordinadores" },
       { path: "supervisor", model: "supervisores" }
     ];
-    Db.find()
+
+    if (!page || !item) {
+      Db
+      .find()
       .populate(join)
-      //.exec()
+      .exec((error, resp, total) => {
+        if (!error) {
+          Db.count((counterError, counter) => {
+            if (counter > 0) {
+              res.status(200).json({
+                titulo: msg.read.success.title,
+                tipo: msg.read.success.type,
+                mensaje: msg.read.success.message,
+                data: resp,
+                pagina: total
+              });
+            } else {
+              res.status(400).json({
+                titulo: msg.read.not_found.title,
+                tipo: msg.read.not_found.type,
+                mensaje: msg.read.not_found.message,
+                data: resp
+              });
+            }
+          });
+        } else {
+          res.status(500).json({
+            titulo: msg.read.error.title,
+            tipo: msg.read.error.type,
+            mensaje: msg.read.error.message,
+            data: error
+          });
+        }
+      });
+    } else {
+      Db.find()
+      .populate(join)
       .paginate(page, item, (error, resp, total) => {
         if (!error) {
           Db.count((counterError, counter) => {
@@ -102,6 +136,7 @@ module.exports = {
           });
         }
       });
+    }
   },
   filter: (req, res) => {
     var params = req.body;
@@ -117,7 +152,7 @@ module.exports = {
     ];
     Db.find(params)
       .populate(join)
-     // .exec()
+      // .exec()
       .paginate(page, item, (error, resp, total) => {
         if (!error) {
           Db.count((counterError, counter) => {

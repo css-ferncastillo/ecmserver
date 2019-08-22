@@ -10,6 +10,7 @@
     "accesos",
     Schema({
       empleadoid: { type: Schema.ObjectId, ref: "empleados" },
+      usuario: string
       perfilid: { type: Schema.ObjectId, ref: "perfiles" },
       avatar: String,
       clave: String,

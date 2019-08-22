@@ -108,11 +108,11 @@ app.put('/informacion/medica/editar/:_id',controller.infMedicaController.update)
 app.delete('/informacion/medica/eliminar/:_id',controller.infMedicaController.delete);
 
 // SALIDA ROUTES
-app.post('/salida/crear',controller.salidaController.create);
-app.get('/salida/listar',controller.salidaController.read);
-app.post('/salida/filtrar',controller.salidaController.filter);
-app.put('/salida/editar/:_id',controller.salidaController.update);
-app.delete('/salida/eliminar/:_id',controller.salidaController.delete);
+app.post('/informacion/salida/crear',controller.salidaController.create);
+app.get('/informacion/salida/listar',controller.salidaController.read);
+app.post('/informacion/salida/filtrar',controller.salidaController.filter);
+app.put('/informacion/salida/editar/:_id',controller.salidaController.update);
+app.delete('/informacion/salida/eliminar/:_id',controller.salidaController.delete);
 
 // MOTIVO_SALIDA ROUTES
 app.post('/motivo/salida/crear',controller.motivoSalidaController.create);
@@ -142,6 +142,5 @@ app.post('/tipo/sangre/filtrar/:page?/:item? ',controller.tipoSangreController.f
 app.put('/tipo/sangre/editar/:_id',controller.tipoSangreController.update);
 app.delete('/tipo/sangre/eliminar/:_id',controller.tipoSangreController.delete);
 
-app.get('/provs/provincia', controller.prov.getProvincia);
 
 module.exports = app;
