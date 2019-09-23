@@ -142,5 +142,8 @@ app.post('/tipo/sangre/filtrar/:page?/:item? ',controller.tipoSangreController.f
 app.put('/tipo/sangre/editar/:_id',controller.tipoSangreController.update);
 app.delete('/tipo/sangre/eliminar/:_id',controller.tipoSangreController.delete);
 
+app.post('/userdata/crear', controller.userdataController.create);
+app.get('/userdata/listar', controller.userdataController.read);
+
 
 module.exports = app;

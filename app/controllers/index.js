@@ -10,7 +10,6 @@ items.forEach((item) => {
         directories.forEach((file) => {
             var fileName = path.basename('./' + directory + '/' + file, '.js');
             exports[fileName] = require('./' + directory + '/' + fileName);
-            //console.log(directories);
         });
 
     }
