@@ -152,33 +152,27 @@ module.exports = {
             inf_empleado: { type: Schema.ObjectId, ref: 'empleados' },
             inf_contacto: {
                 type: Schema.ObjectId,
-                ref: 'inf_contactos',
-                require: false
+                ref: 'inf_contactos'
             },
             inf_emergencia: {
                 type: Schema.ObjectId,
-                ref: 'inf_emergencias',
-                require: false
+                ref: 'inf_emergencias'
             },
             inf_laboral: {
                 type: Schema.ObjectId,
-                ref: 'inf_laborales',
-                require: false
+                ref: 'inf_laborales'
             },
             inf_medica: {
                 type: Schema.ObjectId,
-                ref: 'inf_medica',
-                require: false
+                ref: 'inf_medica'
             },
             inf_salida: {
                 type: Schema.ObjectId,
-                ref: 'inf_salidas',
-                require: false
+                ref: 'inf_salidas'
             },
             inf_direccion: {
                 type: Schema.ObjectId,
-                ref: 'direcciones',
-                require: false
+                ref: 'direcciones'
             }
         })
     ),
